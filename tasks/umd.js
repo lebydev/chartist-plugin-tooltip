@@ -17,8 +17,8 @@ module.exports = function (grunt) {
       objectToExport: 'Chartist.plugins.tooltip',
       deps: {
         default: ['Chartist'],
-        amd: ['chartist'],
-        cjs: ['chartist'],
+        amd: ['chartist-logscale'],
+        cjs: ['chartist-logscale'],
         global: ['Chartist']
       },
       indent: '  '
