@@ -75,7 +75,7 @@
                 if ($toolTip) {
                     height = height || $toolTip.offsetHeight;
                     width = width || $toolTip.offsetWidth;
-                    var offsetX = - (width / 2) * 1.1;
+                    var offsetX = - (width / 2);
                     var offsetY = - height - 8;
 
                     var box = $chart.getBoundingClientRect();
