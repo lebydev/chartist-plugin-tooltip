@@ -28,7 +28,8 @@
 
           return function tooltip(chart) {
               var $chart = chart.container;
-              var $toolTip, height, width;
+              var $toolTip = document.querySelector('.chartist-tooltip');
+              var height, width;
 
               function on(event, callback) {
                   $chart.addEventListener(event, function(e) {
@@ -37,6 +38,7 @@
               }
 
               on('mouseover', function(event) {
+                  if ($toolTip) { removeElement($toolTip); }
                   var $point = event.target;
                   var tooltipText = '';
 
@@ -51,7 +53,7 @@
                   }
 
                   if (options.tooltipFnc && typeof options.tooltipFnc === 'function' && hasMetaValue) {
-                      tooltipText = options.tooltipFnc(meta, value);
+                      tooltipText = '<span class=chartist-tooltip-value>' + options.tooltipFnc(meta, value) + '</span>';
                   } else if (hasMetaValue) {
                       tooltipText = '<span class="chartist-tooltip-value">' + meta + ': ' + value + '</span>';
                   }
@@ -69,7 +71,7 @@
 
               on('mouseout', function() {
                   if ($toolTip) {
-                    hide($toolTip);
+                      removeElement($toolTip);
                   }
               });
 
@@ -100,7 +102,11 @@
                       $toolTip.style.left = left + offsetX + 'px';
                   }
               }
-          }
+
+              $chart.removeEventListener('mouseover', on);
+              $chart.removeEventListener('mousemove', on);
+              $chart.removeEventListener('mouseout', on);
+          };
       };
 
       function show(element) {
@@ -109,15 +115,18 @@
           }
       }
 
-      function hide(element) {
-          element.remove();
+      function removeElement(element) {
+          if (!!document.documentMode) {
+              element.removeNode(true);
+          } else {
+              element.remove();
+          }
       }
 
       function hasClass(element, className) {
           return (' ' + element.getAttribute('class') + ' ').indexOf(' ' + className + ' ') > -1;
       }
   } (window, document, Chartist));
-
   return Chartist.plugins.tooltip;
 
 }));

@@ -1,35 +1,42 @@
-$chart-tooltip-bg: #F4C63D;
-$chart-tooltip-color: #453D3F;
+$chart-tooltip-bg: rgba(0, 0, 0, .8);
+$chart-tooltip-color: white;
+
 .chartist-tooltip {
   position: absolute;
   display: inline-block;
   opacity: 0;
   min-width: 5em;
   padding: .5em;
-  background: $chart-tooltip-bg;
-  color: $chart-tooltip-color;
   font-family: Oxygen,Helvetica,Arial,sans-serif;
   font-weight: 700;
   text-align: center;
   pointer-events: none;
-  z-index: 1;
+  background: $chart-tooltip-bg;
+  border-radius: 4px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, .5);
+  font-size: 12px;
+  color: $chart-tooltip-color;
+  z-index: 11;
   -webkit-transition: opacity .2s linear;
   -moz-transition: opacity .2s linear;
   -o-transition: opacity .2s linear;
   transition: opacity .2s linear;
+  &.tooltip-show {
+    opacity: 1;
+  }
+}
+
+.chartist-tooltip-value {
+  position: relative;
   &:before {
     content: "";
     position: absolute;
-    top: 100%;
-    left: 50%;
+    top: 150%;
+    left: calc(50% - 6px);
     width: 0;
     height: 0;
-    margin-left: -15px;
-    border: 15px solid transparent;
+    border: 6px solid transparent;
     border-top-color: $chart-tooltip-bg;
-  }
-  &.tooltip-show {
-    opacity: 1;
   }
 }
 
