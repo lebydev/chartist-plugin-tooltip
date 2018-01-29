@@ -14,7 +14,7 @@ var defaultOptions = {
 
 ## Sample usage in Chartist.js
 
-`npm i chartist-logscale-plugin-tooltip --save`
+`npm i chartist-logscale-plugin-tooltips --save`
 
 With descriptive text:
 ```js
