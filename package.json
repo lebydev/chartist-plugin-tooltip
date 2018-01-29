@@ -1,8 +1,8 @@
 {
   "name": "chartist-logscale-plugin-tooltips",
-  "description": "Point Labels Plugin for Chartist.js",
-  "version": "0.0.21",
-  "author": "Markus Padourek",
+  "description": "Tooltips for Chartist.js",
+  "version": "1.0.0",
+  "author": "Dmitry Lebedev",
   "homepage": "https://github.com/lebydev/chartist-plugin-tooltip",
   "repository": {
     "type": "git",

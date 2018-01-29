@@ -19,7 +19,7 @@
 
       var defaultOptions = {
           class: undefined,
-          pointClass: 'ct-point'
+          tooltipFnc: undefined
       };
 
       Chartist.plugins = Chartist.plugins || {};
@@ -39,13 +39,13 @@
 
               on('mouseover', function(event) {
                   if ($toolTip) { removeElement($toolTip); }
-                  var $point = event.target;
+                  var point = event.target;
                   var tooltipText = '';
 
-                  var isPieChart = (chart instanceof Chartist.Pie) ? $point : $point.parentNode;
-                  var seriesName = (isPieChart) ? $point.parentNode.getAttribute('ct:meta') || $point.parentNode.getAttribute('ct:series-name') : '';
-                  var meta = $point.getAttribute('ct:meta') || seriesName || '';
-                  var value = $point.getAttribute('ct:value');
+                  var isPieChart = (chart instanceof Chartist.Pie) ? point : point.parentNode;
+                  var seriesName = isPieChart ? point.parentNode.getAttribute('ct:meta') || point.parentNode.getAttribute('ct:series-name') : '';
+                  var meta = point.getAttribute('ct:meta') || seriesName || '';
+                  var value = point.getAttribute('ct:value');
                   var hasMetaValue = !!meta && Number(value) > 0;
 
                   if (options.transformTooltipTextFnc && typeof options.transformTooltipTextFnc === 'function') {
@@ -59,13 +59,7 @@
                   }
 
                   if (tooltipText) {
-                      renderTooltip(tooltipText);
-                      $toolTip.innerHTML = tooltipText;
-                      setPosition(event);
-                      show($toolTip);
-
-                      height = $toolTip.offsetHeight;
-                      width = $toolTip.offsetWidth;
+                      renderTooltip(tooltipText, event.pageX, event.pageY);
                   }
               });
 
@@ -76,18 +70,21 @@
               });
 
               on('mousemove', function(event) {
-                  setPosition(event);
+                  setPosition(event.pageX, event.pageY);
               });
 
-              function renderTooltip(text) {
+              function renderTooltip(text, x, y) {
                   $toolTip = document.createElement('div');
-                  $toolTip.className = (!options.class) ? 'chartist-tooltip' : 'chartist-tooltip ' + options.class;
+                  $toolTip.className = (!options.class) ? 'chartist-tooltip' : 'chartist-tooltip' + options.class;
+                  $toolTip.innerHTML = text;
+                  setPosition(x, y);
                   $chart.insertBefore($toolTip, chart.container.childNodes[0]);
+
                   height = $toolTip.offsetHeight;
                   width = $toolTip.offsetWidth;
               }
 
-              function setPosition(event) {
+              function setPosition(x, y) {
                   if ($toolTip) {
                       height = height || $toolTip.offsetHeight;
                       width = width || $toolTip.offsetWidth;
@@ -95,8 +92,8 @@
                       var offsetY = - height - 8;
 
                       var box = $chart.getBoundingClientRect();
-                      var left = event.pageX - box.left;
-                      var top = event.pageY - box.top;
+                      var left = x - box.left;
+                      var top = y - box.top;
 
                       $toolTip.style.top = top + offsetY + 'px';
                       $toolTip.style.left = left + offsetX + 'px';
@@ -109,22 +106,12 @@
           };
       };
 
-      function show(element) {
-          if(!hasClass(element, 'tooltip-show')) {
-              element.className = element.className + ' tooltip-show';
-          }
-      }
-
       function removeElement(element) {
           if (!!document.documentMode) {
               element.removeNode(true);
           } else {
               element.remove();
           }
-      }
-
-      function hasClass(element, className) {
-          return (' ' + element.getAttribute('class') + ' ').indexOf(' ' + className + ' ') > -1;
       }
   } (window, document, Chartist));
   return Chartist.plugins.tooltip;
