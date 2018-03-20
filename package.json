@@ -1,7 +1,7 @@
 {
   "name": "chartist-logscale-plugin-tooltips",
   "description": "Tooltip plugin for Chartist.js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "Dmitry Lebedev",
   "homepage": "https://github.com/lebydev/chartist-plugin-tooltip",
   "repository": {
@@ -17,7 +17,8 @@
     "tooltip"
   ],
   "files": [
-    "chartist-plugin-tooltip.js"
+    "chartist-plugin-tooltip.js",
+    "chartist-plugin-tooltip.css"
   ],
   "main": "chartist-plugin-tooltip.js",
   "dependencies": {},
